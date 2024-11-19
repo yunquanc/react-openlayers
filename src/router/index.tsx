@@ -49,6 +49,7 @@ const Loading = () => {
 
 const renderRouter = (routes: any[]) => {
   const render = routes?.map((e: any) => {
+    // ==================== 此处进行路由拦截 =====================
     return (
       <Route key={e.path} path={e.path} element={e.element()}>
         {e.children ? renderRouter(e.children) : <></>}
