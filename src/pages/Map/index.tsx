@@ -11,7 +11,7 @@ import useStyles from "./index.styles";
 const Map = forwardRef((props: any, ref: any) => {
   const { styles } = useStyles();
 
-  return <div>123123</div>;
+  return <div className={styles.content}>123123</div>;
 });
 
 export default Map;
