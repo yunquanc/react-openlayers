@@ -1,0 +1,95 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.87);
+  background-color: rgba(0, 0, 0, 0.03);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+  --ck-color-engine-placeholder-text: rgba(0, 0, 0, 0.25);
+}
+html,
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+* {
+  box-sizing: border-box;
+}
+/*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  background: #fff;
+}
+.ant-table-wrapper .ant-table {
+  scrollbar-color: initial !important;
+}
+/*定义滑块 内阴影+圆角*/
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  width: 20px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+}
+/*定义滚动条轨道 内阴影+圆角*/
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+}
+
+/* 通用表格样式 */
+.ant-table .ant-table-cell {
+  height: 46px;
+  box-sizing: border-box;
+  padding: 0 16px !important;
+}
+
+.ck-block-toolbar-button {
+  transform: translateX(45px);
+  cursor: grab !important;
+}
+.ck-block-toolbar-button:active {
+  cursor: grabbing !important;
+}
+.ck-balloon-panel {
+  z-index: 9 !important;
+}
+.ck.ck-balloon-panel.ck-tooltip {
+  z-index: 11 !important;
+}
+.ck-read-only .story-box,
+.story-box-title--readonly {
+  -webkit-user-drag: none !important;
+  user-select: text !important;
+}
+
+/* 阅读模式下的一些样式设置 */
+.ck-read-only .ck-widget {
+  outline: none !important;
+}
+.ck-read-only .ck-widget .ck-widget__selection-handle {
+  display: none !important;
+}
+.ck-read-only .ck-editor__nested-editable:focus {
+  border: 1px solid transparent !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+.ck-read-only td.ck-editor__nested-editable:focus {
+  background-color: unset !important;
+  border: unset !important;
+}
+.ck-read-only th.ck-editor__nested-editable:focus {
+  background-color: unset !important;
+  border: unset !important;
+  background-color: hsla(0, 0%, 0%, 5%) !important;
+}
+
+/* 全局search样式 */
+.ant-input-search {
+}
