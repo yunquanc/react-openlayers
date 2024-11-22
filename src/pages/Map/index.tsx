@@ -16,11 +16,12 @@ import { fromLonLat } from "ol/proj";
 import XYZ from "ol/source/XYZ";
 import Feature from "ol/Feature";
 import Point from "ol/geom/Point";
-import { Style, Icon } from "ol/style";
+import { Style, Icon, Stroke } from "ol/style";
 import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
 import HeatmapLayer from "ol/layer/Heatmap";
 import Overlay from "ol/Overlay";
+import { LineString } from "ol/geom";
 
 const MapPage = (props: any, ref: any) => {
   const mapRef = useRef(null);
@@ -123,14 +124,36 @@ const MapPage = (props: any, ref: any) => {
       }
     });
 
-    // ==================== 添加坐标 =====================
+    // ==================== 添加热力点 =====================
     const addDataPoint = (longitude: any, latitude: any, weight: any) => {
       const point = new Feature({
         geometry: new Point(fromLonLat([longitude, latitude])),
         weight: weight, // 权重用于热力图
+        name: "123123123",
       });
       HeatmapLayerSource.addFeature(point);
     };
+    // 生成指定范围内的随机坐标
+    function getRandomInRange(min: any, max: any) {
+      return Math.random() * (max - min) + min;
+    }
+    function generateRandomCoordinates(
+      minX: any,
+      maxX: any,
+      minY: any,
+      maxY: any
+    ) {
+      const x = getRandomInRange(minX, maxX);
+
+      const y = getRandomInRange(minY, maxY);
+
+      return { x, y };
+    }
+
+    // for (let i = 0; i < 50000; i++) {
+    //   const point = generateRandomCoordinates(100, 120, 30, 50);
+    //   addDataPoint(point.x, point.y, 1); // 北京
+    // }
 
     // 添加数据点
     addDataPoint(116.4074, 40.0042, 1); // 北京
@@ -143,6 +166,53 @@ const MapPage = (props: any, ref: any) => {
     addDataPoint(113.2644, 23.1291, 3); // 广州
     addDataPoint(104.0665, 30.6595, 4); // 成都
     addDataPoint(102.5528, 24.1139, 5); // 昆明
+
+    // ==================== 添加线段 =====================
+    const setLineLayer = (pointA: number[], pointB: number[]) => {
+      // 创建线段
+      const lineString = new LineString([
+        fromLonLat(pointA),
+        fromLonLat(pointB),
+      ]);
+      // 创建线段特征
+      const lineFeature = new Feature({
+        geometry: lineString,
+      });
+      // 设置线段样式
+      const lineStyle = new Style({
+        stroke: new Stroke({
+          color: "blue",
+          width: 4,
+        }),
+      });
+      lineFeature.setStyle(lineStyle);
+      // 创建矢量源并添加线段特征
+      const vectorLineSource = new VectorSource({
+        features: [lineFeature],
+      });
+
+      // 创建矢量图层并添加到地图
+      const vectorLineLayer = new VectorLayer({
+        source: vectorLineSource,
+      });
+
+      map.addLayer(vectorLineLayer);
+    };
+
+    let prevPoint: any = null;
+    for (let i = 0; i < 10; i++) {
+      const pointA = generateRandomCoordinates(100, 120, 30, 50);
+      if (prevPoint) {
+        setLineLayer([prevPoint.x, prevPoint.y], [pointA.x, pointA.y]);
+      }
+      prevPoint = pointA;
+    }
+
+    setLineLayer([116.4074, 40.0042], [116.5174, 39.9142]);
+    setLineLayer([116.5174, 39.9142], [116.6274, 39.9242]);
+    setLineLayer([116.6274, 39.9242], [116.7374, 39.9342]);
+    setLineLayer([116.7374, 39.9342], [116.8474, 39.9442]);
+    setLineLayer([116.8474, 39.9442], [116.9574, 39.9542]);
 
     return () => map.setTarget(undefined); // 组件卸载时清理
   }, []);
