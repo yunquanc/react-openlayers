@@ -1,0 +1,28 @@
+pipeine {
+  agent {
+    docker {
+      image 'node:18.19-alpine3.18'
+      args '-p 3002:3002'
+    }
+  }
+  environment {
+    CI = 'true'
+  }
+  stages {
+    stage('install') {
+      steps {
+        sh 'npm i'
+      }
+    }
+    stage('Build') {
+      steps {
+        sh 'npm build-jenkins'
+      }
+    }
+    stage('Server') {
+      steps {
+        sh 'npm server'
+      }
+    }
+  }
+}
